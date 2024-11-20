@@ -8,6 +8,11 @@ const MobileMenu = () => {
       <Link to='/user-profile' className='hover:text-orange-500 font-bold'>
         User Profile
       </Link>
+
+      <Link to='/manage-restaurant' className='font-bold hover:text-orange-500'>
+        Manage Restaurant
+      </Link>
+
       <Button
         onClick={() => {
           logout();
