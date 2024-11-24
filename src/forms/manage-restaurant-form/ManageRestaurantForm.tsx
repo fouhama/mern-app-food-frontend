@@ -6,6 +6,9 @@ import DetailsSections from "./DetailsSections";
 import { Separator } from "../../components/ui/separator";
 import CuisinesSection from "./CuisinesSection";
 import MenuSection from "./MenuSection";
+import ImageSection from "./ImageSection";
+import LoadingButton from "../../components/LoadingButton";
+import { Button } from "../../components/ui/button";
 
 const formShemca = z.object({
   restaurantName: z.string({
@@ -36,11 +39,11 @@ const formShemca = z.object({
   imageFile: z.instanceof(File, { message: "Please select an image" }),
 });
 type restaurantFromData = z.infer<typeof formShemca>;
-// type Props = {
-//   onSave: (restaurantFormData: FormData) => void;
-//   isLoading: boolean;
-// };
-const Managerestaurantform = () => {
+type Props = {
+  // onSave: (restaurantFormData: FormData) => void;
+  isLoading: boolean;
+};
+const Managerestaurantform = ({ isLoading }: Props) => {
   const form = useForm<restaurantFromData>({
     resolver: zodResolver(formShemca),
     defaultValues: {
@@ -61,6 +64,10 @@ const Managerestaurantform = () => {
         <CuisinesSection />
         <Separator />
         <MenuSection />
+        <Separator />
+        <ImageSection />
+
+        {isLoading ? <LoadingButton /> : <Button type='submit'>Submit</Button>}
       </form>
     </Form>
   );
