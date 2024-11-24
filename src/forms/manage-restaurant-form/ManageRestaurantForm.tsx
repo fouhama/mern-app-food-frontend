@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form } from "../../components/ui/form";
 import DetailsSections from "./DetailsSections";
+import { Separator } from "../../components/ui/separator";
+import CuisinesSection from "./CuisinesSection";
 
 const formShemca = z.object({
   restaurantName: z.string({
@@ -18,7 +20,7 @@ const formShemca = z.object({
     required_error: "Estimated Delivery Time is required",
     invalid_type_error: "Estimated Delivery Time must be a number",
   }),
-  cusines: z
+  cuisines: z
     .array(z.string())
     .nonempty({ message: "please Select at last items" }),
   menuItems: z.array(
@@ -41,7 +43,7 @@ const Managerestaurantform = ({ onSave, isLoading }: Props) => {
   const form = useForm<restaurantFromData>({
     resolver: zodResolver(formShemca),
     defaultValues: {
-      cusines: [],
+      cuisines: [],
       menuItems: [{ name: "", price: 0 }],
     },
   });
@@ -54,6 +56,8 @@ const Managerestaurantform = ({ onSave, isLoading }: Props) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className='space-y-8 bg-gray-50 p-10 rounded-lg flex-1'>
         <DetailsSections />
+        <Separator />
+        <CuisinesSection />
       </form>
     </Form>
   );
