@@ -38,21 +38,47 @@ const formShemca = z.object({
   ),
   imageFile: z.instanceof(File, { message: "Please select an image" }),
 });
-type restaurantFromData = z.infer<typeof formShemca>;
+type RestaurantFromData = z.infer<typeof formShemca>;
 type Props = {
-  // onSave: (restaurantFormData: FormData) => void;
+  onSave: (restaurantFormData: FormData) => void;
   isLoading: boolean;
 };
-const Managerestaurantform = ({ isLoading }: Props) => {
-  const form = useForm<restaurantFromData>({
+const Managerestaurantform = ({ isLoading, onSave }: Props) => {
+  const form = useForm<RestaurantFromData>({
     resolver: zodResolver(formShemca),
     defaultValues: {
       cuisines: [],
       menuItems: [{ name: "", price: 0 }],
     },
   });
-  const onSubmit = () => {
+  const onSubmit = (formDataJson: RestaurantFromData) => {
     //  convert json to form data
+    const formData = new FormData();
+    formData.append("restaurantName", formDataJson.restaurantName);
+    formData.append("city", formDataJson.city);
+    formData.append("country", formDataJson.country);
+    formData.append(
+      "deliveryPrice",
+      (formDataJson.deliveryPrice * 100).toString()
+    );
+    formData.append(
+      "estimatedDeliveryTime",
+      formDataJson.estimatedDeliveryTime.toString()
+    );
+    formDataJson.cuisines.forEach((cuisine, index) => {
+      formData.append(`cuisines[${index}]`, cuisine);
+    });
+    formDataJson.menuItems.forEach((menuItem, index) => {
+      formData.append(`menuItems[${index}][name]`, menuItem.name);
+      formData.append(
+        `menuItems[${index}][price]`,
+        (menuItem.price * 100).toString()
+      );
+    });
+
+    formData.append("imageFile", formDataJson.imageFile);
+
+    onSave(formData);
   };
   return (
     <Form {...form}>
