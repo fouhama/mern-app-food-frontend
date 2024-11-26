@@ -9,6 +9,8 @@ import MenuSection from "./MenuSection";
 import ImageSection from "./ImageSection";
 import LoadingButton from "../../components/LoadingButton";
 import { Button } from "../../components/ui/button";
+import { Restaurant } from "../../../types";
+import { useEffect } from "react";
 
 const formShemca = z.object({
   restaurantName: z.string({
@@ -42,8 +44,9 @@ type RestaurantFromData = z.infer<typeof formShemca>;
 type Props = {
   onSave: (restaurantFormData: FormData) => void;
   isLoading: boolean;
+  restaurant?: Restaurant;
 };
-const Managerestaurantform = ({ isLoading, onSave }: Props) => {
+const Managerestaurantform = ({ restaurant, isLoading, onSave }: Props) => {
   const form = useForm<RestaurantFromData>({
     resolver: zodResolver(formShemca),
     defaultValues: {
@@ -51,6 +54,27 @@ const Managerestaurantform = ({ isLoading, onSave }: Props) => {
       menuItems: [{ name: "", price: 0 }],
     },
   });
+
+  useEffect(() => {
+    if (!restaurant) {
+      return;
+    }
+    const deliveryPriceFromatted = parseInt(
+      (restaurant.deliveryPrice / 100).toFixed(2)
+    );
+    const menuItemsFormatted = restaurant.menuItems.map((item) => ({
+      ...item,
+      price: parseInt((item.price / 100).toFixed(2)),
+    }));
+
+    const updateRestaurant = {
+      ...restaurant,
+      deliveryPrice: deliveryPriceFromatted,
+      menuItems: menuItemsFormatted,
+    };
+    form.reset(updateRestaurant);
+  }, [form, restaurant]);
+
   const onSubmit = (formDataJson: RestaurantFromData) => {
     //  convert json to form data
     const formData = new FormData();
@@ -75,9 +99,9 @@ const Managerestaurantform = ({ isLoading, onSave }: Props) => {
         (menuItem.price * 100).toString()
       );
     });
-
-    formData.append("imageFile", formDataJson.imageFile);
-
+    if (formDataJson.imageFile) {
+      formData.append("imageFile", formDataJson.imageFile);
+    }
     onSave(formData);
   };
   return (
