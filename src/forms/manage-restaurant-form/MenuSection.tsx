@@ -25,10 +25,8 @@ const MenuSection = () => {
             {fields.map((_, index) => (
               <MenuItemInput
                 key={index}
-                removeMenuItem={() => {
-                  remove(index);
-                }}
                 index={index}
+                removeMenuItem={() => remove(index)}
               />
             ))}
           </FormItem>

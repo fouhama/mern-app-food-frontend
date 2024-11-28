@@ -10,11 +10,11 @@ import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 
 type Props = {
-  removeMenuItem: () => void;
   index: number;
+  removeMenuItem: () => void;
 };
 
-const MenuItemInput = ({ removeMenuItem, index }: Props) => {
+const MenuItemInput = ({ index, removeMenuItem }: Props) => {
   const { control } = useFormContext();
   return (
     <div className='flex flex-row items-end gap-2'>
