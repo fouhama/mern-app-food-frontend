@@ -17,6 +17,7 @@ const MenuSection = () => {
           Create your menu and give each item a name and price
         </FormDescription>
       </div>
+
       <FormField
         name='menuItems'
         control={control}
@@ -26,7 +27,9 @@ const MenuSection = () => {
               <MenuItemInput
                 key={index}
                 index={index}
-                removeMenuItem={() => remove(index)}
+                removeMenuItem={() => {
+                  remove(index);
+                }}
               />
             ))}
           </FormItem>
