@@ -15,7 +15,6 @@ const SearchResultInfo = ({ total, city }: Props) => {
           Change location
         </Link>
       </span>
-      insert Drop Dowan here
     </div>
   );
 };

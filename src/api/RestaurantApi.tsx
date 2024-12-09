@@ -14,6 +14,7 @@ export const useSearchRestaurant = (
       params.set("searchQuery", searchState.searchQuery);
       params.set("page", searchState.page.toString());
       params.set("selectCuisines", searchState.selectedCuisines.join(","));
+      params.set("sortOption", searchState.sortOption);
 
       const response = await fetch(
         `${BASE_URL_BACK}/api/restaurant/search/${city}?${params.toString()}`,
