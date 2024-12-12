@@ -89,7 +89,8 @@ const SearchPage = () => {
         <div className='flex flex-col lg:flex-row gap-3 justify-between'>
           <SearchResultInfo total={results.pagination.total} city={city} />
           <SortOptionsDropdwon
-            onChange={(value) => setSortOption(value)}
+            // onChange={(value) => setSortOption(value)}
+            onChange={setSortOption}
             sortOption={searchState.sortOption}
           />
         </div>
