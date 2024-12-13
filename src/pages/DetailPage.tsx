@@ -6,6 +6,7 @@ import MenuItem from "../components/MenuItem";
 import { useState } from "react";
 import { Card } from "../components/ui/card";
 import OrderSummary from "../components/OrderSummary";
+import { MenuItem as MenuItemType } from "../../types";
 
 export type CardItem = {
   _id: string;
@@ -21,6 +22,41 @@ const DetailPage = () => {
   if (!Restaurant || isLoading) {
     return <span>Loding...</span>;
   }
+  const addTocard = (menuItem: MenuItemType) => {
+    setCardItems((preveItems) => {
+      const existinCardItem = preveItems.find(
+        (oldItem) => oldItem._id === menuItem._id
+      );
+      let updateCardItem;
+      if (existinCardItem) {
+        updateCardItem = preveItems.map((itemSelected) =>
+          itemSelected._id === menuItem._id
+            ? {
+                ...itemSelected,
+                quantity: itemSelected.quantity + 1,
+              }
+            : itemSelected
+        );
+      } else {
+        updateCardItem = [
+          ...preveItems,
+          {
+            _id: menuItem._id,
+            name: menuItem.name,
+            price: menuItem.price,
+            quantity: 1,
+          },
+        ];
+      }
+
+      return updateCardItem;
+    });
+  };
+  const removeFromCard = (itemId: string) => {
+    setCardItems((preveItems) =>
+      preveItems.filter((itemcard) => itemcard._id != itemId)
+    );
+  };
 
   return (
     <div className='flex flex-1 flex-col gap-10'>
@@ -36,12 +72,19 @@ const DetailPage = () => {
           <RestaurantInfo restaurant={Restaurant} />
           <span className=' font-bold text-2xl tracking-tighter'>Menu</span>
           {Restaurant.menuItems.map((menuItem) => (
-            <MenuItem menuItem={menuItem} />
+            <MenuItem
+              menuItem={menuItem}
+              addTocard={() => addTocard(menuItem)}
+            />
           ))}
         </div>
         <div>
           <Card>
-            <OrderSummary cardItems={cardItems} restaurant={Restaurant} />
+            <OrderSummary
+              cardItems={cardItems}
+              restaurant={Restaurant}
+              removeFromCard={removeFromCard}
+            />
           </Card>
         </div>
       </div>

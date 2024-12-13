@@ -1,16 +1,24 @@
+import { Trash } from "lucide-react";
 import { Restaurant } from "../../types";
 import { CardItem } from "../pages/DetailPage";
 import { Badge } from "./ui/badge";
 import { CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Separator } from "./ui/separator";
 
 type Props = {
   restaurant: Restaurant;
   cardItems: CardItem[];
+  removeFromCard: (cardItemsId: string) => void;
 };
 
-const OrderSummary = ({ cardItems, restaurant }: Props) => {
+const OrderSummary = ({ cardItems, restaurant, removeFromCard }: Props) => {
   const getTotalCost = () => {
-    return 1;
+    const totalInPence = cardItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
+    const totalWidthDeliveryPrice = totalInPence + restaurant.deliveryPrice;
+    return (totalWidthDeliveryPrice / 100).toFixed(2);
   };
   return (
     <>
@@ -24,11 +32,26 @@ const OrderSummary = ({ cardItems, restaurant }: Props) => {
         {cardItems.map((item) => (
           <div className='flex justify-between'>
             <span>
-              <Badge>{item.name}</Badge>
+              <Badge variant='outline' className='mr-2'>
+                {item.name}
+              </Badge>
               {item.quantity}
+            </span>
+            <span className='flex items-center gap-1'>
+              <Trash
+                onClick={() => removeFromCard(item._id)}
+                className='text-red-500 cursor-pointer'
+              />
+              $ ${((item.price * item.quantity) / 100).toFixed(2)}
             </span>
           </div>
         ))}
+        <Separator />
+        <div className='flex justify-between'>
+          <span>Delivery</span>
+          <span>${(restaurant.deliveryPrice / 100).toFixed(2)}</span>
+        </div>
+        <Separator />
       </CardContent>
     </>
   );
