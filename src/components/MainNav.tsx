@@ -5,7 +5,7 @@ import UsernameMenu from "./UsernameMenu";
 const MainNav = () => {
   const { loginWithRedirect, isAuthenticated } = useAuth0();
   return (
-    <span className='flex space-x-4 items-center'>
+    <span className='flex space-x-4 items-center '>
       {isAuthenticated ? (
         <>
           <Link to='order-status' className='font-bold hover:text-orange-500'>

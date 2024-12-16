@@ -18,7 +18,12 @@ export type CardItem = {
 const DetailPage = () => {
   const { restaurantId } = useParams();
   const { Restaurant, isLoading } = useGetRestaurant(restaurantId);
-  const [cardItems, setCardItems] = useState<CardItem[]>([]);
+  const [cardItems, setCardItems] = useState<CardItem[]>(() => {
+    const storedCartItems = sessionStorage.getItem(`cardItems-${restaurantId}`);
+    return storedCartItems ? JSON.parse(storedCartItems) : [];
+  });
+  console.log(sessionStorage.getItem(`cardItems-${restaurantId}`));
+
   if (!Restaurant || isLoading) {
     return <span>Loding...</span>;
   }
@@ -49,13 +54,25 @@ const DetailPage = () => {
         ];
       }
 
+      sessionStorage.setItem(
+        `cardItems-${restaurantId}`,
+        JSON.stringify(updateCardItem)
+      );
+
       return updateCardItem;
     });
   };
   const removeFromCard = (itemId: string) => {
-    setCardItems((preveItems) =>
-      preveItems.filter((itemcard) => itemcard._id != itemId)
-    );
+    setCardItems((preveItems) => {
+      const updateCardItem = preveItems.filter(
+        (itemcard) => itemcard._id != itemId
+      );
+      sessionStorage.setItem(
+        `cardItems-${restaurantId}`,
+        JSON.stringify(updateCardItem)
+      );
+      return updateCardItem;
+    });
   };
 
   return (
