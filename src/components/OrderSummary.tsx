@@ -2,10 +2,8 @@ import { Trash } from "lucide-react";
 import { Restaurant } from "../../types";
 import { CardItem } from "../pages/DetailPage";
 import { Badge } from "./ui/badge";
-import { CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
+import { CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Separator } from "./ui/separator";
-import CheckoutButton from "./CheckoutButton";
-import { UserFormData } from "../forms/user-profile-form/UserProfileForm";
 
 type Props = {
   restaurant: Restaurant;
@@ -22,9 +20,7 @@ const OrderSummary = ({ cardItems, restaurant, removeFromCard }: Props) => {
     const totalWidthDeliveryPrice = totalInPence + restaurant.deliveryPrice;
     return (totalWidthDeliveryPrice / 100).toFixed(2);
   };
-  const onCheckout = (userFormData: UserFormData) => {
-    console.log("user form data", userFormData);
-  };
+
   return (
     <>
       <CardHeader>
@@ -59,12 +55,6 @@ const OrderSummary = ({ cardItems, restaurant, removeFromCard }: Props) => {
           <span>${(restaurant.deliveryPrice / 100).toFixed(2)}</span>
         </div>
         <Separator />
-        <CardFooter>
-          <CheckoutButton
-            disabled={cardItems.length === 0}
-            onCheckout={onCheckout}
-          />
-        </CardFooter>
       </CardContent>
     </>
   );
