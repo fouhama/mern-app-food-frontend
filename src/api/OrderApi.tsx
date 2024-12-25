@@ -1,6 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
+import { Order } from "../../types";
 
 type CheckoutSessionRequest = {
   CartItems: {
@@ -18,6 +19,29 @@ type CheckoutSessionRequest = {
 };
 
 const BACKEND_URL = import.meta.env.VITE_API_BASE_URL;
+export const useGetMyOrders = () => {
+  const { getAccessTokenSilently } = useAuth0();
+  const getOrdersRequest = async ():Promise<Order[]> => {
+    const token = await getAccessTokenSilently();
+    const response = await fetch(`${BACKEND_URL}/api/order`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
+
+    if(!response.ok) {
+      throw new Error(response.statusText);
+    }    
+    return response.json();  
+  }
+  const { data: getOrders, isLoading } = useQuery('getOrders', getOrdersRequest);
+  return{ getOrders, isLoading };
+
+}
+
+
+
 export const useCreateCheckoutSession = () => {
   const { getAccessTokenSilently } = useAuth0();
 
