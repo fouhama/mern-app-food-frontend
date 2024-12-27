@@ -118,7 +118,6 @@ export const useGetMyRestaurantOrders = () => {
     }
     return responce.json();
   }
-
   const { data: getMyRestaurantOrders, isLoading } = useQuery('getMyRestaurantOrders', getMyRestaurantOrdersRequest);
   return { getMyRestaurantOrders, isLoading };
 }
