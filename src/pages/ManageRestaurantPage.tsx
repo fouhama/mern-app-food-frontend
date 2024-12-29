@@ -1,4 +1,4 @@
-import { TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
+import { TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 import {
   useCreateMyRestaurant,
   useGetMyRestaurant,
@@ -25,7 +25,7 @@ function ManageRestaurantPage() {
       </TabsList>
       <TabsContent value="orders" className="bg-gray-50 rounded-lg p-10 space-y-5  ">
         <h2 className="text-2xl font-bold">{getOrders?.length} active orders</h2>
-          
+
       </TabsContent>
       <TabsContent value="manage-restaurant">
         <Managerestaurantform
