@@ -19,19 +19,19 @@ function ManageRestaurantPage() {
 
   const isEditing = !!Restaurant;
   return (
-    <Tabs defaultValue="orders" >
+    <Tabs defaultValue="orders"  className="flex-1">
       <TabsList>
         <TabsTrigger value="orders" >Orders</TabsTrigger>
         <TabsTrigger value="manage-restaurant">Manage Restaurant</TabsTrigger>
       </TabsList>
-      <TabsContent value="orders" className="bg-gray-50 rounded-lg p-10 space-y-5 flex-1 ">
+      <TabsContent value="orders" className="bg-gray-50 rounded-lg p-10 space-y-5  ">
         <h2 className="text-2xl font-bold">{getOrders?.length} active orders</h2>
         {getOrders?.map(order => (
           <OrderItemCard order={order} key={order._id} />
         ))}
 
       </TabsContent>
-      <TabsContent value="manage-restaurant" className="bg-gray-50 rounded-lg p-10 space-y-5 flex-1 ">
+      <TabsContent value="manage-restaurant" className="bg-gray-50 rounded-lg p-10 space-y-5  ">
         <Managerestaurantform
           restaurant={Restaurant}
           isLoading={isLoadingCreate || isLoadingUpdate}

@@ -121,3 +121,33 @@ export const useGetMyRestaurantOrders = () => {
   const { data: getMyRestaurantOrders, isLoading } = useQuery('getMyRestaurantOrders', getMyRestaurantOrdersRequest);
   return { getMyRestaurantOrders, isLoading };
 }
+type UpdateStatusOrderRequest = {
+  orderId: string,
+  status: string,
+}
+export const useUpdateMyRestaurantOrder = () => {
+  const { getAccessTokenSilently } = useAuth0();
+  const updateMyRestaurantOrderRequest = async (updateStatusOrderRequest: UpdateStatusOrderRequest) => {
+    const token = await getAccessTokenSilently();
+    const responce = await fetch(`${VITE_API_BASE_URL}/api/my/restaurant/${updateStatusOrderRequest.orderId}/status`, {
+      method: 'PATCH',
+      headers: {
+        Authorization : `Bearer ${token}`
+      },
+      body: JSON.stringify(updateStatusOrderRequest.status)
+    })
+    if (!responce.ok) { 
+      throw new Error(' Error updating order status');
+    }
+    return  responce.json();
+  }
+  const { mutate: updateMyRestaurantOrder, isLoading, isError, isSuccess, reset } = useMutation(updateMyRestaurantOrderRequest);
+  if (isSuccess) {
+    toast.success(' Order status updated');
+  }
+  if (isError) {
+    toast.error(' Error updating order status');
+    reset()
+  }
+  return { updateMyRestaurantOrder, isLoading }
+ }
