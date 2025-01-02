@@ -16,7 +16,7 @@ const OrderItemCard = ({ order }: Props) => {
     const { isLoading, updateMyRestaurantOrder } = useUpdateMyRestaurantOrder();
     const handleStatusChange = async (newStatus: OrderStatus) => {
         await updateMyRestaurantOrder({
-            orderId: order._id,
+            orderId: order._id as string,   
             status: newStatus
         })
         setSetatus(newStatus)
@@ -62,7 +62,7 @@ const OrderItemCard = ({ order }: Props) => {
                   ))}
               </div>
               <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="status">What is the status of order? </Label>\
+                  <Label htmlFor="status">What is the status of order? </Label>
                   <Select value={status} disabled={isLoading} onValueChange={(value) => {
                       handleStatusChange(value as OrderStatus);
                   }}>

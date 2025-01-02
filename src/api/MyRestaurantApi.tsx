@@ -130,11 +130,11 @@ export const useUpdateMyRestaurantOrder = () => {
   const updateMyRestaurantOrderRequest = async (updateStatusOrderRequest: UpdateStatusOrderRequest) => {
     const token = await getAccessTokenSilently();
     const responce = await fetch(`${VITE_API_BASE_URL}/api/my/restaurant/${updateStatusOrderRequest.orderId}/status`, {
-      method: 'PATCH',
+      method: 'PUT',
       headers: {
         Authorization : `Bearer ${token}`
       },
-      body: JSON.stringify(updateStatusOrderRequest.status)
+      body: JSON.stringify(updateStatusOrderRequest)
     })
     if (!responce.ok) { 
       throw new Error(' Error updating order status');
