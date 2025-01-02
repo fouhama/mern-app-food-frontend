@@ -129,7 +129,7 @@ export const useUpdateMyRestaurantOrder = () => {
   const { getAccessTokenSilently } = useAuth0();
   const updateMyRestaurantOrderRequest = async (updateStatusOrderRequest: UpdateStatusOrderRequest) => {
     const token = await getAccessTokenSilently();
-    const responce = await fetch(`${VITE_API_BASE_URL}/api/my/restaurant/${updateStatusOrderRequest.orderId}/status`, {
+    const responce = await fetch(`${VITE_API_BASE_URL}/api/my/restaurant/order/${updateStatusOrderRequest.orderId}/status`, {
       method: 'PUT',
       headers: {
         Authorization : `Bearer ${token}`
