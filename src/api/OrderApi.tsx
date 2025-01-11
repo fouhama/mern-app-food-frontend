@@ -23,7 +23,7 @@ export const useGetMyOrders = () => {
   const { getAccessTokenSilently } = useAuth0();
   const getOrdersRequest = async ():Promise<Order[]> => {
     const token = await getAccessTokenSilently();
-    const response = await fetch(`${BACKEND_URL}/api/order`, {
+    const response = await fetch(`${BACKEND_URL}/api/my/restaurant/orders`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
