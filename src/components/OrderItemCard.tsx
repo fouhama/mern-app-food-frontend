@@ -20,17 +20,17 @@ const OrderItemCard = ({ order }: Props) => {
             status: newStatus
         })
         setSetatus(newStatus)
-        // return true 
+       
     }
     const [status, setSetatus] =useState<OrderStatus>(order.status)
     useEffect(() => {
         setSetatus(order.status)
-    },[order.status])
+    }, [order.status])
+    
     const getTime =() =>{
         const date = new Date(order.createAt);
         const hours = date.getHours();
         const minutes = date.getMinutes();
-
         const  paddedMin = minutes < 10 ? `0${minutes}` : minutes;
        
         return `${hours}:${paddedMin}`
@@ -64,9 +64,8 @@ const OrderItemCard = ({ order }: Props) => {
               </div>
               <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="status">What is the status of order? </Label>
-                  <Select value={status} disabled={isLoading} onValueChange={(value) => {
-                      handleStatusChange(value as OrderStatus);
-                  }}>
+                  <Select value={status} disabled={isLoading} onValueChange={(value) => handleStatusChange(value as OrderStatus)
+                  }>
                       <SelectTrigger>
                           <SelectValue placeholder='status' />
                       </SelectTrigger>
